@@ -1,0 +1,10 @@
+module ExtSinal
+(sinal_16,sinal_32);
+input [15:0] sinal_16;
+output [31:0] sinal_32;
+
+if (sinal_16[15]==1'b1)
+	sinal_32 = {16{1'b1},sinal_16};
+else
+	sinal_32 = {16{0'b1},sinal_16};
+endmodule

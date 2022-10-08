@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="ProcessadorMips">
+		<CBX_INST_ENTRY INSTANCE_NAME="|ProcessadorMips|MEMdata:inst1|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_jjj1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|ProcessadorMips|MEMinst:MemData|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_6la1.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

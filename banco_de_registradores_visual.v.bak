@@ -1,0 +1,64 @@
+module banco_de_registradores_2
+(clock, wren, end_reg_d, end_reg_1, end_reg_2, data_in, reg_1_out, reg_2_out, reg0, reg1, reg2, reg3, reg4,
+reg5, reg6, reg7, reg8, reg9, re10, reg11, reg12, reg13, reg14, reg15, reg16, reg17, reg18, reg19, reg20,
+reg21, reg22, reg23, reg24, reg25, reg26, reg27, reg28, reg29, reg30, reg31);
+input clock;
+input wren;
+input [4:0] end_reg_d;
+input [4:0] end_reg_1;
+input [4:0] end_reg_2;
+input [31:0] data_in;
+output [31:0] reg_1_out;
+output [31:0] reg_2_out;
+output [31:0] reg0, reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8, reg9, re10, reg11, reg12;
+output [31:0] reg13, reg14, reg15, reg16, reg17, reg18, reg19, reg20, reg21, reg22, reg23;
+output [31:0] reg24, reg25, reg26, reg27, reg28, reg29, reg30, reg31;
+reg [31:0] registradores[31:0];
+initial begin // todos os registradores são inicialmente zerados
+	for (int i = 0; i < $size(registradores); i++)
+		registradores[i] = 32'b00000000000000000000000000000000;
+end
+always @(negedge clock) // quando o clock descer...
+begin
+if (wren) // se wren (write enable estiver ativado)
+	if (end_reg_d != 0) // se o endereco de escrita nao for do $zero
+		registradores[end_reg_d] <= data_in; // escreve o dado de entrada no registrador
+end
+//definindo o que aparece em cada saída
+assign reg_1_out = registradores[end_reg_1];
+assign reg_2_out = registradores[end_reg_2];
+//para visualizar os registradores
+assign reg0 = registradores[0];
+assign reg1 = registradores[1];
+assign reg2 = registradores[2];
+assign reg3 = registradores[3];
+assign reg4 = registradores[4];
+assign reg5 = registradores[5];
+assign reg6 = registradores[6];
+assign reg7 = registradores[7];
+assign reg8 = registradores[8];
+assign reg9 = registradores[9];
+assign reg10 = registradores[10];
+assign reg11 = registradores[11];
+assign reg12 = registradores[12];
+assign reg13 = registradores[13];
+assign reg14 = registradores[14];
+assign reg15 = registradores[15];
+assign reg16 = registradores[16];
+assign reg17 = registradores[17];
+assign reg18 = registradores[18];
+assign reg19 = registradores[19];
+assign reg20 = registradores[20];
+assign reg21 = registradores[21];
+assign reg22 = registradores[22];
+assign reg23 = registradores[23];
+assign reg24 = registradores[24];
+assign reg25 = registradores[25];
+assign reg26 = registradores[26];
+assign reg27 = registradores[27];
+assign reg28 = registradores[28];
+assign reg29 = registradores[29];
+assign reg30 = registradores[30];
+assign reg31 = registradores[31];
+
+endmodule

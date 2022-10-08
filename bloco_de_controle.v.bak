@@ -1,0 +1,7 @@
+module bloco_de_controle
+(opcode,funct,bit20,MemRead,ALUop,Memwrite,RegWrite,m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,chaves);
+input [31:26] opcode;
+input [5:0] funct;
+input bit20;
+output wire [1:0] chaves;
+output wire MemRead,ALUop,Memwrite,RegWrite,m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11;

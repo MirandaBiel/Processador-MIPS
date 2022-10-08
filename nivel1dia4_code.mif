@@ -1,0 +1,25 @@
+DEPTH = 4096;
+WIDTH = 32;
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+CONTENT
+BEGIN
+
+00000000 : 3c011001;  % 7: 	la $t1, a # Obs.: Primeiro endereço da  %
+00000001 : 34290000;
+00000002 : 00006020;  % 8: 	add $t4, $0, $0 %
+00000003 : 200b0004;  % 9: 	addi $t3, $0, 4 %
+00000004 : 8d280000;  % 10:  	lw $t0, 0($t1) %
+00000005 : 8d2a0004;  % 11: 	lw $t2, 4($t1) %
+00000006 : 8d2e0008;  % 12: 	lw $t6, 8($t1) %
+00000007 : 01886821;  % 13: lp:	addu $t5, $t4, $t0 %
+00000008 : 21290004;  % 14: 	addi $t1, $t1, 4  %
+00000009 : 216bffff;  % 15: 	addi $t3, $t3, -1 %
+0000000a : ad280008;  % 16: 	sw $t0, 8($t1)  %
+0000000b : 21080064;  % 17: 	addi $t0, $t0, 100 %
+0000000c : 1560fffa;  % 18: 	bne $t3, $0, lp # Obs.: Verificar o rótulo está na linha addu $t5, $t4, $t0 %
+0000000d : 014e0018;  % 19: 	mult $t2, $t6 %
+0000000e : 015d482a;  % 20: 	slt $t1, $t2, $sp %
+0000000f : 00006820;  % 21: 	add $t5, $zero, $zero %
+
+END;

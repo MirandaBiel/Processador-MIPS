@@ -1,0 +1,295 @@
+module ula(E1, E2, E3, opar, zero, Result, overflow);
+
+//Entradas
+input [31:0] E1;
+input [31:0] E2;
+input [4:0] E3;
+input [4:0]  opar; //Estou na dúvida se são 4 bits mesmo
+
+//Saida
+output [31:0]Result;
+output zero;
+output overflow;
+
+//Variaveia auxiliares
+
+integer i;
+
+reg [30:0]aux_01;
+reg [4:0]aux_02;
+reg [31:0] aux_03;//Result
+reg aux_overflow;
+reg aux_zero;
+reg [31:0]deslocado;
+reg [5:0]j; //Contador em binário
+reg [31:0]Entrada_01;
+reg [31:0]Entrada_02;
+reg [31:0]Entrada_03;
+
+
+//Identificando qual operação realizar;
+	
+	always@(*) begin
+		
+		Entrada_01 = E1;
+		Entrada_02 = E2;
+		
+		if (E3[4] == 1'b0) begin
+		
+			Entrada_03 = {27'b000000000000000000000000000, E3};
+		
+		end
+		if (E3[4] == 1'b1) begin
+		
+			Entrada_03 = {27'b111111111111111111111111111, E3};
+		
+		end
+		
+
+		//E1 + E2 (Sem overflow) //LW//ADDU
+		if(opar == 5'b00000)begin
+			
+			aux_03 = Entrada_01 + Entrada_02;
+			
+		end
+		
+		//E1 + E2 (Com overflow) //ADD//ADDI
+		if(opar == 5'b00001)begin
+			
+			aux_03 = Entrada_01 + Entrada_02;
+			
+			//Overflow
+			
+			if(Entrada_01[31] == Entrada_02[31])begin
+				if(aux_03[31] != Entrada_01[31])begin
+					
+					aux_overflow = 1'b1;
+					
+				end
+			end
+			
+		end
+		
+		//E1 - E2 //SUB(Com overflow)
+		else if (opar == 5'b00010)begin
+			
+			aux_03 = Entrada_01 - Entrada_02; 
+			
+			//adicionar overflow
+			
+			Entrada_02[31] = (-Entrada_02[31]); //Invertendo para virar uma soma
+			
+			if(Entrada_01[31] == Entrada_02[31])begin
+				if(aux_03[31] != Entrada_01[31])begin
+					
+					aux_overflow = 1'b1;
+					
+				end
+			end
+			
+		end
+		
+		//E1 AND E2 //AND
+		else if (opar == 5'b00011)begin
+			
+			aux_03 = Entrada_01 & Entrada_02;
+		end
+		
+		//E1 FOR IGUAL A E2, ZERO =1 //BEQ
+		else if (opar == 5'b00100)begin
+			
+			if (Entrada_01 == Entrada_02) begin
+				aux_zero = 1'b1;
+			end
+			
+			else begin 
+				aux_03 = 32'b00000000000000000000000000000000; //Apenas para o aux_03 não ficar vazio
+			end
+		end
+		
+		
+		//E1 FOR DIFERENTE DE E2, ZERO =1 //BNE
+		else if (opar == 5'b00101) begin
+			
+			if (Entrada_01 != Entrada_02) begin
+				aux_zero = 1'b1;
+			end
+			
+			else begin
+				aux_03 = 32'b00000000000000000000000000000000; //Apenas para o aux_03 não ficar vazio
+			end
+		end
+		
+		//se Entrada_01 for menor que Entrada_02 retorna "1", "zero" caso o contrário //SLT
+		if (opar == 5'b00110) begin
+			
+			if(Entrada_01 < Entrada_02)
+				
+				aux_03 = 32'b00000000000000000000000000000001;
+			else 
+				aux_03 = 32'b00000000000000000000000000000000;
+		end
+		//se rt for maior que rs retorna "1", "zero" caso o contrário //TEQ
+		if (opar == 5'b10100) begin
+			
+			if(Entrada_01 == Entrada_02)
+				
+				aux_overflow = 1'b1; //Realizar a exeção 
+				/////////////////////////////////////////////////////////////////////////////////////////////////////ADICIONAR ALGUMA COISA EM TEQ
+		end
+		//E1 OR E2 //OR
+		else if (opar == 5'b00111) begin
+			
+			aux_03 = Entrada_01 | Entrada_02;
+		
+		end
+		
+		//E1 NOR E2 // NOR //
+		else if (opar == 5'b01000) begin
+			
+			aux_03 = ~(Entrada_01 | Entrada_02);
+			
+		end
+		
+		//E1 XOR E2//XOR //Testado
+		else if (opar == 5'b01001) begin 
+			
+			aux_03 = Entrada_01 ^ Entrada_02;
+		
+		end
+			
+
+		//E1 - E2 (ignorando o sinal) //SEM OVErflow //SUBU //Testado
+		else if(opar == 5'b10101) begin
+			
+			aux_03 = Entrada_01 - Entrada_02;
+		
+		end
+		
+		//Deslocar para a esquerda e adicionar zeros //SLL //Testado
+		else if(opar == 5'b01011) begin 
+			
+			for(j = 5'b00000; j < E3 ; j = j + 5'b00001) begin 
+				
+				aux_01 = Entrada_02[30:0];
+				deslocado = {aux_01, 1'b0};
+				Entrada_02 = deslocado;
+			end
+			
+			aux_03 = deslocado;
+		end
+		
+		//Deslocar para a direita e adicionar zeros //SLL // //Testado
+		else if(opar == 5'b01100) begin 
+			
+			for(j = 5'b00000; j < E3 ; j = j + 5'b00001) begin 
+				
+				aux_01 = Entrada_02[31:1];
+				deslocado = {1'b0,aux_01};
+				Entrada_02 = deslocado;
+			end
+			
+			aux_03 = deslocado;
+		end
+		
+		//se Entrada_01 for maior igual a 0, zero = 1; //BGEZ //Testado
+		if (opar == 5'b01101) begin
+			
+			if(Entrada_01 < Entrada_02)
+				
+				aux_zero = 1'b1;
+		end
+		
+		else if (opar == 5'b01110) begin //CLO
+		
+			//FAZER CLO
+			//FAZER CLO
+			//FAZER CLO
+			//FAZER CLO
+			
+		end
+		/*
+		//Deslocar para a direita e repere o bit[31] //SRAV //Testado
+		else if(opar == 5'b01111) begin 
+			
+			if(E2[4] == 1'b1)begin
+				
+				Entrada_02 = {27'b111111111111111111111111111, E2};
+				
+			end
+			
+			for(j = 5'b00000; j < E1 ; j = j + 5'b00001) begin 
+				
+				aux_01 = Entrada_02[31:1];
+				deslocado = {E2[4],aux_01};
+				Entrada_02 = deslocado;
+			end
+			
+			aux_03 = deslocado;
+			
+		end
+		*/
+		//Deslocar para a direita e repere o bit[31] //SRA //Testado
+		else if(opar == 5'b10000) begin 
+			
+			if(E2[4] == 1'b1)begin
+				
+				Entrada_02 = {27'b111111111111111111111111111, E2};
+				
+			end
+			
+			for(j = 5'b00000; j < E3 ; j = j + 5'b00001) begin 
+				
+				aux_01 = Entrada_02[31:1];
+				deslocado = {E2[4],aux_01};
+				Entrada_02 = deslocado;
+			end
+			
+			aux_03 = deslocado;
+		end
+		
+		else if (opar == 5'b10001)begin
+		
+			if(E2 != 5'b00000)begin
+			
+				aux_03 = Entrada_01;
+			
+			end
+		
+		end
+		
+		//sltu //Testado
+		else if (opar == 5'b10010)begin
+		
+			if(E1 < E2)begin
+			
+				aux_03 = 32'b00000000000000000000000000000001;
+			
+			end
+			
+			else begin
+				
+				aux_03 = 32'b00000000000000000000000000000000;
+			end
+		end
+		
+		if(aux_overflow != 1'b1)begin
+			
+			aux_overflow = 1'b0;
+		
+		end
+		
+		if(aux_zero != 1'b1)begin
+			
+			aux_zero = 1'b0;
+			
+		end
+		
+		
+	end
+
+assign Result = aux_03;
+assign overflow = aux_overflow;
+assign zero = aux_zero;
+
+endmodule 

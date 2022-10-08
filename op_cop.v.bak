@@ -1,0 +1,65 @@
+//Responsavel por dar a informação para o cooprocessador de qual operação realizar
+module op_cop(funct, sinal_mux_11, op, opcod);
+
+	input [5:0]funct; //Informação de 6 bits que vem do separador 1
+	input [5:0] opcod;
+	
+	output sinal_mux_11;
+	output [1:0]op; //operação para o cooprocessador
+	
+	reg [1:0]aux_op;
+	reg aux_sinal_mux_11;
+	
+	
+	always@* begin
+		
+		
+		if(opcod == 6'b000000) begin
+			
+			if(funct == 6'b011010) begin //DIV
+				
+				aux_op = 2'b11;
+			end
+			
+			else if(funct == 6'b011000) begin //MULT
+				
+				aux_op = 2'b00;
+			end
+		
+		end
+		
+		else if(opcod == 6'b011100) begin
+			
+			if(funct == 6'b000010) begin //MUL
+				
+				aux_op = 2'b00;
+				aux_sinal_mux_11 = 1'b1;
+			end
+			
+			else if(funct == 6'b000000) begin //MADD
+				
+				aux_op = 2'b01;
+			end
+			
+			else if(funct == 6'b000101) begin //MSUBU
+				
+				aux_op = 2'b10;
+			end
+		
+		end
+			
+		if(sinal_mux_11 != 1'b1) begin
+	
+			aux_sinal_mux_11 = 1'b0;
+		
+		end
+			
+		
+	end
+	
+	
+	
+	assign op = aux_op;
+	assign sinal_mux_11 = aux_sinal_mux_11;
+	
+endmodule

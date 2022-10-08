@@ -1,0 +1,6 @@
+module separador6
+(ent_32,saida_14);
+input [31:0] ent_32;
+output wire [13:0] saida_8;
+assign saida_8 = ent_32[13:0];
+endmodule

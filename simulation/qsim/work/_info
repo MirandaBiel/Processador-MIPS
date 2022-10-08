@@ -1,0 +1,85 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\Gabriel\Documents\Processador_32_mips\simulation\qsim
+vProcessadorMips
+Z1 IcfiYAXNMidjOzl]Oo1oE?1
+Z2 Vj^>NMDSb<4]Bea_bH?VJ41
+Z3 dC:\Users\Gabriel\Downloads\Processador_32_mips\Processador_32_mips\simulation\qsim
+Z4 w1664248732
+Z5 8ProcessadorMips.vo
+Z6 FProcessadorMips.vo
+L0 31
+Z7 OV;L;10.1d;51
+r1
+31
+Z8 !s90 -work|work|ProcessadorMips.vo|
+Z9 o-work work -O0
+Z10 n@processador@mips
+!i10b 1
+Z11 !s100 MP2U6Ko?<FVS3UMJ=VVLC1
+!s85 0
+Z12 !s108 1664248734.930000
+Z13 !s107 ProcessadorMips.vo|
+!s101 -O0
+vProcessadorMips_vlg_check_tst
+!i10b 1
+Z14 !s100 >IWkBLi2P@j3TLKDeD5Cd2
+Z15 IR4]LcUmP[M6De8F`ThY2z2
+Z16 VBbW<JUZNH4aX:N_R6mTAe3
+R3
+Z17 w1664248725
+Z18 8ProcessadorMips.vt
+Z19 FProcessadorMips.vt
+L0 73
+R7
+r1
+!s85 0
+31
+Z20 !s108 1664248739.563000
+Z21 !s107 ProcessadorMips.vt|
+Z22 !s90 -work|work|ProcessadorMips.vt|
+!s101 -O0
+R9
+Z23 n@processador@mips_vlg_check_tst
+vProcessadorMips_vlg_sample_tst
+!i10b 1
+Z24 !s100 WL;IB4;e:4GZo6l2zJkg60
+Z25 I1hMdB6@YidJ0671@55L^62
+Z26 Vg?g>VP7mUKJil3eEem@6=0
+R3
+R17
+R18
+R19
+L0 29
+R7
+r1
+!s85 0
+31
+R20
+R21
+R22
+!s101 -O0
+R9
+Z27 n@processador@mips_vlg_sample_tst
+vProcessadorMips_vlg_vec_tst
+!i10b 1
+!s100 fZK0dn16j9co6CW8S1[a`3
+IJccgmXPekfVbSB@]F3o=I0
+Z28 V@XWdCNFihK[_jjmC56]zE0
+R3
+R17
+R18
+R19
+Z29 L0 7631
+R7
+r1
+!s85 0
+31
+R20
+R21
+R22
+!s101 -O0
+R9
+Z30 n@processador@mips_vlg_vec_tst

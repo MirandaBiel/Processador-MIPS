@@ -1,0 +1,27 @@
+module select_pc
+(pc_mais_4,jump_jal,jr_jalr,beq_bne_bgez_bgezal,ch,saida);
+
+input [31:0] pc_mais_4, jump_jal, jr_jalr, beq_bne_bgez_bgezal;
+input [1:0] ch;
+output reg [31:0] saida;
+
+always @(*)
+begin
+	if(ch == 2'b00)
+		begin
+		saida = pc_mais_4;
+		end
+	else if (ch == 2'b01)
+		begin
+		saida = jump_jal;
+		end
+	else if (ch == 2'b10)
+		begin
+		saida = jr_jalr;
+		end
+	else
+		begin
+		saida = beq_bne_bgez_bgezal;
+		end
+end
+endmodule
